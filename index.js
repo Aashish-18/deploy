@@ -29,7 +29,10 @@ app.use(bodyParser.json({ limit: "30mb", extended: true })); // Configuring JSON
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true })); // Configuring URL-encoded body parser
 app.use(cors()); // Allowing cross-origin resource sharing
 app.use("/assets", express.static(path.join(__dirname, "public/assets"))); // Serving static files
-app.use("/public", express.static(path.join(__dirname, "./build"))); // Serving static files 
+app.use(express.static(path.join(__dirname, "./build")));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+"./build/index.html"));
+});
 // Setting up file storage with multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -43,9 +46,6 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage }); // Creating multer instance with storage configuration
-app.get("*",function(req,res){
-  res.sendFile(path.join(__dirname,"./build/index.html")); 
-});
 // Handling routes with files
 app.post("/auth/register", upload.single("picture"), register); // Handling register route with file upload middleware and register controller
 app.post("/posts", verifyToken, upload.single("picture"), createPost); // Handling create post route with token verification middleware and createPost controller
