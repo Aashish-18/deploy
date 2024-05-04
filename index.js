@@ -29,9 +29,9 @@ app.use(bodyParser.json({ limit: "30mb", extended: true })); // Configuring JSON
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true })); // Configuring URL-encoded body parser
 app.use(cors()); // Allowing cross-origin resource sharing
 app.use("/assets", express.static(path.join(__dirname, "public/assets"))); // Serving static files
-app.use(express.static(path.join(__dirname, "./build")));
+app.use(express.static(path.join(__dirname, "/build")));
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+"./build/index.html"));
+  res.sendFile(path.join(__dirname+"/build/index.html"));
 });
 // Setting up file storage with multer
 const storage = multer.diskStorage({
